@@ -23,17 +23,11 @@ import com.example.taipeitour.R
 import com.example.taipeitour.databinding.FragmentAttractionDetailBinding
 
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
+
 class AttractionDetailFragment : Fragment() {
 
     private var _binding: FragmentAttractionDetailBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

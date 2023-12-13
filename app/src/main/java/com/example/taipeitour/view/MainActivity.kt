@@ -35,12 +35,9 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-         toolbar = binding.toolbar
-
-        // 設定 AppBar 的背景顏色
+        toolbar = binding.toolbar
         toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.blue))
 
-        // 設定 StatusBar 的背景顏色
         setStatusBarColor(R.color.blue)
 
 
@@ -48,13 +45,9 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-
-        // 觀察 LiveData 的變化
-        viewModel.languagesLiveData.observe(this, Observer { languages ->
-            // 在這裡更新 UI，以顯示新的語言數據
-            // 例如，你可以將語言數據設置給 RecyclerView 的 Adapter
-        })
-
+//        viewModel.languagesLiveData.observe(this, Observer { languages ->
+//
+//        })
 
     }
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
