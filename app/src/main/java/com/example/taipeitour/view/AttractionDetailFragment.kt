@@ -1,18 +1,23 @@
 package com.example.taipeitour.view
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.util.Linkify
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.taipeitour.R
 import com.example.taipeitour.databinding.FragmentAttractionDetailBinding
@@ -49,7 +54,7 @@ class AttractionDetailFragment : Fragment() {
 
         val textViewName = binding.attTitle
         val textViewIntroduction = binding.attIntroduction
-        val imageView = binding.attImage
+        val viewPager: ViewPager2 = binding.attImage
         val openTimeTextView = binding.openTime
         val addressTextView = binding.address
         val telTextView = binding.tel
@@ -58,14 +63,18 @@ class AttractionDetailFragment : Fragment() {
 
         val attractionName = arguments?.getString("attractionName")
         val attractionIntroduction = arguments?.getString("attractionIntroduction")
-        val attractionImage = arguments?.getString("attractionImage")
+        val attractionImageList = arguments?.getStringArrayList("attractionImages")
         val attractionOpen_time = arguments?.getString("attractionOpen_time")
         val attractionAddress = arguments?.getString("attractionAddress")
         val attractionTel = arguments?.getString("attractionTel")
         val attractionUrl = arguments?.getString("attractionUrl")
 
-        // 使用 Glide 加載圖片
-        Glide.with(requireContext()).load(attractionImage).into(imageView)
+//        Log.d(ContentValues.TAG, attractionImageList.toString())
+
+        val imageAdapter = ImagePagerAdapter(attractionImageList?.toList() ?: emptyList())
+        viewPager.adapter = imageAdapter
+
+
         // 更新其他 TextView 的資料
         textViewName.text = attractionName
         textViewIntroduction.text = attractionIntroduction

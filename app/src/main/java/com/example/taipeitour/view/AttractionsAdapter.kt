@@ -29,12 +29,17 @@ class AttractionsAdapter(private var emplist: List<Attraction>) : RecyclerView.A
     // This method binds the data to the ViewHolder object
     // for each item in the RecyclerView
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
         val currentEmp = emplist[position]
         holder.title.text = currentEmp.name
         holder.content.text = currentEmp.introduction
+
+        // 取出第一張圖片的 URL，假設 images 陣列不為空
+        val firstImage = currentEmp.image.firstOrNull()
+        val imageUrl = firstImage?.firstOrNull()
         // 使用 Glide 載入圖片
         Glide.with(holder.itemView)
-            .load(currentEmp.image)
+            .load(imageUrl)
             .into(holder.image)
 
 
@@ -42,7 +47,9 @@ class AttractionsAdapter(private var emplist: List<Attraction>) : RecyclerView.A
             val bundle = Bundle().apply {
                 putString("attractionName", currentEmp.name)
                 putString("attractionIntroduction", currentEmp.introduction)
-                putString("attractionImage", currentEmp.image)
+                // 傳遞整個圖片 URL 陣列
+                val imageList = currentEmp.image.mapNotNull { it.firstOrNull() }
+                putStringArrayList("attractionImages", ArrayList(imageList))
                 putString("attractionOpen_time", currentEmp.open_time)
                 putString("attractionAddress", currentEmp.address)
                 putString("attractionTel", currentEmp.tel)

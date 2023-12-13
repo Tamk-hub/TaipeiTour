@@ -1,5 +1,7 @@
 package com.example.taipeitour.viewmodel
 
+import android.content.ContentValues
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -48,11 +50,22 @@ class AttractionsListViewModel: ViewModel() {
             val tel = obj.getString("tel") ?: ""
             val url = obj.getString("url") ?: ""
 
-            val imagesArray = obj.getJSONArray("images")
-            val firstImageObject = imagesArray.optJSONObject(0)
-            val image = firstImageObject?.optString("src")?.replace("\\/", "/") ?: ""
+//            val imagesArray = obj.getJSONArray("images")
+//            val firstImageObject = imagesArray.optJSONObject(0)
+//            val image = firstImageObject?.optString("src")?.replace("\\/", "/") ?: ""
 
-            val attraction = Attraction(name, introduction, image, openTime, address, tel, url)
+            val imagesArray = obj.getJSONArray("images")
+            val imagesList = mutableListOf<List<String>>() // 二維陣列，儲存每個景點的所有圖片
+
+            for (j in 0 until imagesArray.length()) {
+                val imageObject = imagesArray.optJSONObject(j)
+                val imageUrl = imageObject?.optString("src")?.replace("\\/", "/") ?: ""
+                val imageList = mutableListOf<String>()
+                imageList.add(imageUrl)
+                imagesList.add(imageList)
+            }
+
+            val attraction = Attraction(name, introduction, imagesList, openTime, address, tel, url)
             trans.add(attraction)
         }
 

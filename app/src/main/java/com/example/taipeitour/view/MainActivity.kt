@@ -1,5 +1,6 @@
 package com.example.taipeitour.view
 
+import android.os.Build
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -10,16 +11,21 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Observer
 import com.example.taipeitour.R
 import com.example.taipeitour.databinding.ActivityMainBinding
 import com.example.taipeitour.viewmodel.MainViewModel
+import com.google.android.material.appbar.MaterialToolbar
 
 class MainActivity : AppCompatActivity() {
     val viewModel: MainViewModel by viewModels()
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var toolbar: MaterialToolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +34,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
+
+         toolbar = binding.toolbar
+
+        // 設定 AppBar 的背景顏色
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.blue))
+
+        // 設定 StatusBar 的背景顏色
+        setStatusBarColor(R.color.blue)
+
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -42,6 +57,14 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun setStatusBarColor(colorResId: Int) {
+        val windowInsetsController = WindowInsetsControllerCompat(window, window.decorView)
+        windowInsetsController.isAppearanceLightStatusBars = true // 根據你的 UI 選擇亮色或暗色
+
+        window.statusBarColor = ContextCompat.getColor(this, colorResId)
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
